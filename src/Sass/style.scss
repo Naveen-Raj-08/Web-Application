@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap");
+body {
+  font-family: "Nunito";
+  font-size: 15px;
+  color: #292929;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: loading 0.3s linear alternate;
+}
+
+.weather-app {
+  min-height: 100vh;
+  .app-wrap {
+    max-width: 580px;
+    width: 100%;
+    margin: 0 auto;
+    background: #c33764; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #1d2671,
+      #c33764
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #1d2671,
+      #c33764
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 40px;
+    min-height: 100vh;
+
+    @media (max-width: 480px) {
+      padding: 50px 0;
+    }
+
+    .weather-loading {
+      border-color: #fff;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-right-color: transparent;
+    }
+
+    .app-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 100px;
+    }
+    .btn-reload {
+      font-size: 34px;
+      color: #fff;
+      padding: 0;
+      line-height: 0;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .city-name {
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 1.1;
+    }
+    .country {
+      font-size: 15p;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .description {
+      font-size: 15px;
+      text-transform: capitalize;
+      font-weight: normal;
+    }
+
+    .sunrise,
+    .sunset {
+      margin: 0;
+      font-weight: normal;
+    }
+    .icon {
+      font-size: 26px;
+      margin-right: 10px;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    .form-error {
+      color: #ff0000;
+      font-size: 15px;
+    }
+    width: 100%;
+    text-align: center;
+    .fieldset {
+      width: 100%;
+      .input {
+        padding: 10px 20px;
+        display: block;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+
+        &::placeholder {
+          color: #b2b2b2;
+        }
+
+        &:focus {
+          outline: none;
+          border: 1px solid #242424;
+
+          &::placeholder {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

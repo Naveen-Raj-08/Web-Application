@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [ComicData, setComicData] = useState(null);
-  const [DataLimit, setDataLimit] = useState(30);
+  const [DataLimit, setDataLimit] = useState(10);
   var API_KEY = "77b9184fd1aaa75683eefec4dce8ef77";
   var MD5_HASH = "27ebb21b1d67a27a2e623115cef766b9";
   var TS = "thecomics";
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // let API_KEY = "77b9184fd1aaa75683eefec4dce8ef77";
@@ -32,7 +34,7 @@ export const Home = () => {
 
     //gateway.marvel.com/v1/public/comics?
 
-    https: getData();
+    getData();
   }, [DataLimit]);
 
   // href={`${list.resourceURI}?ts=${TS}&apikey=${API_KEY}&hash=${MD5_HASH}`} { URI: list.resourceURI.toString() }
@@ -40,19 +42,24 @@ export const Home = () => {
   const comicResult =
     ComicData &&
     ComicData.map((list, index) => (
-      <div className="col-md-4 mb-4 " key={index}>
+      <div className="col-md-3 mb-4 " key={index}>
         {
-          <Link
-            to={{ pathname: "/stories", search: list.resourceURI }}
+          <a
+            href={"/stories"}
+            onClick={() => {
+              navigate("/stories", {
+                state: list.resourceURI,
+              });
+            }}
             className="link"
           >
             <img
               width="100%"
-              src={`${list.thumbnail.path}/portrait_uncanny.${list.thumbnail.extension}`}
+              src={`${list.thumbnail.path}.${list.thumbnail.extension}`}
             />
             <h3 className="text-break">{list.title}</h3>
-            <span>{list.resourceURI}</span>
-          </Link>
+            <span className="text-break">{list.resourceURI}</span>
+          </a>
         }
       </div>
     ));
@@ -66,7 +73,6 @@ export const Home = () => {
 
   return (
     <div className="container">
-      Welcome to the Web application{" "}
       <div className="row">
         {!ComicData ? <span className="spinner-border"></span> : comicResult}
 
