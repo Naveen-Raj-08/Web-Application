@@ -15,7 +15,6 @@ export const Login = () => {
         console.log("No such document!");
       }
     };
-
     getData();
   }, []);
 
