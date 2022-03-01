@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import db from "./firebase";
+// import { v4 as uuid } from "uuid";
+import { collection, addDoc } from "firebase/firestore";
 
 export const Signup = () => {
   const [Name, setName] = useState("");
@@ -24,7 +27,8 @@ export const Signup = () => {
   };
   const handlePhone = (e) => {
     let phone = e.target.value;
-    setPhone(phone.trim());
+    let num = phone.replace(/[^0-9]/g, "");
+    setPhone(num);
   };
   const handleUserMail = (e) => {
     let email = e.target.value;
@@ -41,7 +45,6 @@ export const Signup = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
     // Validation Starts here
     if (
       Name === "" &&
@@ -72,8 +75,17 @@ export const Signup = () => {
                 Userconfirmpassword: ConfirmPassword,
               };
               setTimeout(() => {
-                localStorage.setItem("user", JSON.stringify(userData));
+                // localStorage.setItem("user", JSON.stringify(userData));
+                try {
+                  const docRef = addDoc(collection(db, "userAuth"), {
+                    userData,
+                  });
+                  console.log("Document written with ID: ", docRef.id);
+                } catch (e) {
+                  console.error("Error adding document: ", e);
+                }
                 e.target.reset();
+                alert("Succssfully created account");
                 navigate("/login");
 
                 console.log(userData);
@@ -115,29 +127,63 @@ export const Signup = () => {
             />
             <input
               className="input"
-              type="text"
+              type="tel"
+              value={Phone}
               placeholder="Enter your Phone.."
               onChange={handlePhone}
-              maxLength={10}
+              maxLength="10"
             />
+            {Phone.length >= 1 ? (
+              phoneVal.test(Phone) === true ? null : (
+                <p className="form-error">Check your phone number</p>
+              )
+            ) : null}
             <input
               className="input"
-              type="text"
+              type="email"
               placeholder="Enter your Email.."
               onChange={handleUserMail}
             />
+
+            {Email.length >= 1 ? (
+              emailVal.test(Email) === true ? null : (
+                <p className="form-error">Check your mail</p>
+              )
+            ) : null}
+
             <input
               className="input"
-              type="text"
+              type="password"
               placeholder="Enter the pasword.."
               onChange={handlePassword}
             />
+            {Password.length >= 1 ? (
+              passwordVal.test(Password) === true ? null : (
+                <p className="form-error">
+                  Password must contain at least 1number, 1char, 1uppercase, and
+                  1lowercase
+                </p>
+              )
+            ) : null}
+
             <input
               className="input"
-              type="text"
+              type="password"
               placeholder="Re-enter your password.."
               onChange={handleConfrimPassword}
             />
+            {ConfirmPassword.length >= 1 ? (
+              passwordVal.test(ConfirmPassword) === true ? (
+                Password === ConfirmPassword ? null : (
+                  <p className="form-error">Password is not mathcing</p>
+                )
+              ) : (
+                <p className="form-error">
+                  Password must contain at least 1number, 1char, 1uppercase, and
+                  1lowercase
+                </p>
+              )
+            ) : null}
           </div>
 
           <button className="btn btn-primary" type="submit">
