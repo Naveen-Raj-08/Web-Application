@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import db from "./firebase";
-// import { v4 as uuid } from "uuid";
 import { collection, addDoc } from "firebase/firestore";
 
 export const Signup = () => {
@@ -75,7 +74,6 @@ export const Signup = () => {
                 Userconfirmpassword: ConfirmPassword,
               };
               setTimeout(() => {
-                // localStorage.setItem("user", JSON.stringify(userData));
                 try {
                   const docRef = addDoc(collection(db, "userAuth"), {
                     userData,

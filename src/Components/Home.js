@@ -12,9 +12,6 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // let API_KEY = "77b9184fd1aaa75683eefec4dce8ef77";
-    // let MD5_HASH = "27ebb21b1d67a27a2e623115cef766b9";
-    // let TS = "thecomics";
     const getData = async () => {
       await axios
         .get(
@@ -22,8 +19,7 @@ export const Home = () => {
         )
         .then((res) => {
           let comicData = res.data;
-          // console.log(comicData.data);
-          // setComicData(result);
+
           const { results, limit } = comicData.data;
           console.log(comicData.data);
           setDataLimit(limit);
@@ -31,13 +27,8 @@ export const Home = () => {
         })
         .catch((err) => console.log(err));
     };
-
-    //gateway.marvel.com/v1/public/comics?
-
     getData();
   }, [DataLimit]);
-
-  // href={`${list.resourceURI}?ts=${TS}&apikey=${API_KEY}&hash=${MD5_HASH}`} { URI: list.resourceURI.toString() }
 
   const comicResult =
     ComicData &&

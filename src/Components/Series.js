@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export const Series = (props) => {
-  const [Series, seSeries] = useState();
+export const Series = () => {
   const location = useLocation();
 
   var API_KEY = "77b9184fd1aaa75683eefec4dce8ef77";
