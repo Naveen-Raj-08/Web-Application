@@ -72,6 +72,7 @@ export const Signup = () => {
                 Usermail: Email,
                 Userpassword: Password,
                 Userconfirmpassword: ConfirmPassword,
+                isAuth: false,
               };
               setTimeout(() => {
                 try {
