@@ -83,7 +83,7 @@ export const Signup = () => {
                   console.error("Error adding document: ", e);
                 }
                 e.target.reset();
-                alert("Succssfully created account");
+                console.log("Succssfully created account");
                 navigate("/login");
 
                 console.log(userData);
