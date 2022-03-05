@@ -8,8 +8,8 @@ export const Login = () => {
   const [UserPassword, setUserPassword] = useState("");
   const [RegisteredUser, setRegisteredUser] = useState();
 
-  const [setNullError] = useState(false);
-  const [setError] = useState(false);
+  const [NullError, setNullError] = useState(false);
+  const [Error, setError] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -21,7 +21,7 @@ export const Login = () => {
             ...doc.data(),
             id: doc.id,
           }));
-          setRegisteredUser(user);
+          localStorage.setItem("user", JSON.stringify(user));
         })
         .catch((err) => {
           console.error("Failed to retrieve data", err);
@@ -29,6 +29,14 @@ export const Login = () => {
     };
 
     getData();
+
+    var data = JSON.parse(localStorage.getItem("user"));
+
+    data.map((item) => {
+      !item.userData
+        ? console.log("Data fetching....")
+        : setRegisteredUser(item);
+    });
   }, []);
 
   const handleUser = (e) => {
@@ -42,6 +50,7 @@ export const Login = () => {
   const handleFormSubmit = (e, item) => {
     e.preventDefault();
     console.log(item);
+    console.log(RegisteredUser);
     const { Usermail, Userpassword } = RegisteredUser.userData;
     if (!User && !UserPassword) {
       setNullError(true);
@@ -54,6 +63,7 @@ export const Login = () => {
         if (User === Usermail && UserPassword === Userpassword) {
           setTimeout(() => {
             navigateTo("/home");
+            localStorage.setItem("user", { isAuth: true });
             e.target.reset();
           }, 1200);
         } else {
@@ -66,9 +76,7 @@ export const Login = () => {
   return (
     <>
       <title>Login page</title>
-      {/* {getList === null ? (
-        <span className="spinner-border"></span>
-      ) : ( */}
+
       <div className="form">
         <h2 className="display-5 text-capitalize">Login</h2>
         <form className="pt-2" onSubmit={handleFormSubmit}>
