@@ -99,7 +99,7 @@ export const Signup = () => {
       <title>Signup</title>
       <div className="form">
         <h2 className="display-5 text-capitalize">Sign up</h2>
-        <form className="pt-2" onSubmit={handleFormSubmit}>
+        <form className="pt-2" onSubmit={handleFormSubmit} autoComplete="off">
           {NullError === true ? (
             <p className="form-error">
               User should not submit the from as blank.

@@ -62,7 +62,7 @@ export const Login = () => {
 
       <div className="form">
         <h2 className="display-5 text-capitalize">Login</h2>
-        <form className="pt-2" onSubmit={handleFormSubmit}>
+        <form className="pt-2" onSubmit={handleFormSubmit} autoComplete="off">
           {NullError === true ? (
             <p className="form-error">Check your credentials</p>
           ) : Error === true ? (
