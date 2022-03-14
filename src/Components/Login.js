@@ -26,10 +26,13 @@ export const Login = () => {
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(localStorage.getItem("user"));
+
+    // checks users details in db
     if (RegisteredUser) {
       const { Usermail, Userpassword } = RegisteredUser;
+      setNullError(false);
       if (!User && !UserPassword) {
+        console.log(NullError);
         setNullError(true);
       } else {
         setNullError(false);
@@ -49,6 +52,8 @@ export const Login = () => {
           }
         }
       }
+    } else {
+      setNullError(true);
     }
   };
   return (
@@ -59,9 +64,9 @@ export const Login = () => {
         <h2 className="display-5 text-capitalize">Login</h2>
         <form className="pt-2" onSubmit={handleFormSubmit}>
           {NullError === true ? (
-            <p className="form-error">Please check your credentials</p>
-          ) : Error ? (
-            <p className="form-error">Invalid unsername or Invalid password</p>
+            <p className="form-error">Check your credentials</p>
+          ) : Error === true ? (
+            <p className="form-error">Invalid username or Invalid password</p>
           ) : null}
           <div className="fieldset">
             <input

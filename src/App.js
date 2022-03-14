@@ -24,7 +24,6 @@ function App() {
 
 const ProtectedRoute = () => {
   var isAuth = localStorage.getItem("isAuth");
-  console.log(isAuth);
   return !isAuth ? <Navigate to="/login" /> : <Outlet />;
 };
 
