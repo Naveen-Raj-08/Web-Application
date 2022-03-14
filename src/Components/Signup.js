@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import db from "./firebase";
-import { collection, addDoc } from "firebase/firestore";
 
 export const Signup = () => {
   const [Name, setName] = useState("");
@@ -69,19 +67,12 @@ export const Signup = () => {
               let userData = {
                 Username: Name,
                 Userphone: Phone,
-                Usermail: Email,
+                Usermail: Email.toLowerCase(),
                 Userpassword: Password,
                 Userconfirmpassword: ConfirmPassword,
               };
               setTimeout(() => {
-                try {
-                  const docRef = addDoc(collection(db, "userAuth"), {
-                    userData,
-                  });
-                  console.log("Document written with ID: ", docRef.id);
-                } catch (e) {
-                  console.error("Error adding document: ", e);
-                }
+                localStorage.setItem("user", JSON.stringify(userData));
                 e.target.reset();
                 console.log("Succssfully created account");
                 navigate("/login");

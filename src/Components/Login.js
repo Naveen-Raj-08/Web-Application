@@ -1,7 +1,5 @@
-import { getDocs, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import db from "./firebase";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [User, setUser] = useState("");
@@ -11,32 +9,11 @@ export const Login = () => {
   const [NullError, setNullError] = useState(false);
   const [Error, setError] = useState(false);
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getData = async () => {
-      await getDocs(collection(db, "userAuth"))
-        .then((docSnap) => {
-          const user = docSnap.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
-          localStorage.setItem("user", JSON.stringify(user));
-        })
-        .catch((err) => {
-          console.error("Failed to retrieve data", err);
-        });
-    };
-
-    getData();
-
-    var data = JSON.parse(localStorage.getItem("user"));
-
-    data.map((item) => {
-      !item.userData
-        ? console.log("Data fetching....")
-        : setRegisteredUser(item);
-    });
+    var data = localStorage.getItem("user");
+    setRegisteredUser(JSON.parse(data));
   }, []);
 
   const handleUser = (e) => {
@@ -47,28 +24,29 @@ export const Login = () => {
     let userpassword = e.target.value;
     setUserPassword(userpassword.trim());
   };
-  const handleFormSubmit = (e, item) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(item);
-    console.log(RegisteredUser);
-    const { Usermail, Userpassword } = RegisteredUser.userData;
-    if (!User && !UserPassword) {
-      setNullError(true);
-    } else {
-      setNullError(false);
-      if (!User || !UserPassword) {
-        setError(true);
+    console.log(localStorage.getItem("user"));
+    if (RegisteredUser) {
+      const { Usermail, Userpassword } = RegisteredUser;
+      if (!User && !UserPassword) {
+        setNullError(true);
       } else {
-        setError(false);
-        if (User === Usermail && UserPassword === Userpassword) {
-          setTimeout(() => {
-            navigateTo("/home");
-            localStorage.setItem("user", { isAuth: true });
-            e.target.reset();
-          }, 1200);
-        } else {
+        setNullError(false);
+        if (!User || !UserPassword) {
           setError(true);
-          console.log("Not registered");
+        } else {
+          setError(false);
+          if (User === Usermail && UserPassword === Userpassword) {
+            setTimeout(() => {
+              localStorage.setItem("isAuth", true);
+              navigate("/home");
+              e.target.reset();
+            }, 1200);
+          } else {
+            setError(true);
+            console.log("Not registered");
+          }
         }
       }
     }
@@ -80,6 +58,11 @@ export const Login = () => {
       <div className="form">
         <h2 className="display-5 text-capitalize">Login</h2>
         <form className="pt-2" onSubmit={handleFormSubmit}>
+          {NullError === true ? (
+            <p className="form-error">Please check your credentials</p>
+          ) : Error ? (
+            <p className="form-error">Invalid unsername or Invalid password</p>
+          ) : null}
           <div className="fieldset">
             <input
               className="input"
@@ -97,6 +80,7 @@ export const Login = () => {
           <button className="btn btn-primary" type="submit">
             Login
           </button>
+          <Link to="/signup">Sign up</Link>
         </form>
       </div>
     </>

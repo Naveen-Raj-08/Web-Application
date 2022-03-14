@@ -24,7 +24,7 @@ export const Stories = (props) => {
     };
 
     getStories();
-  }, []);
+  }, [API_KEY, MD5_HASH, TS]);
 
   console.log(Comic);
 
@@ -82,10 +82,14 @@ export const Stories = (props) => {
     ));
 
   return (
-    <div className="container stories-wrapper">
-      <div className="row">
-        {!Comic ? <span className="spinner-border"></span> : comicStory}
+    <>
+      <title>Stories</title>
+
+      <div className="container stories-wrapper">
+        <div className="row">
+          {!Comic ? <span className="spinner-border"></span> : comicStory}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

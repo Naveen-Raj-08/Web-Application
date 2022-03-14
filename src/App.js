@@ -1,23 +1,31 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Sass/style.scss";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Signup } from "./Components/Signup";
 import { Login } from "./Components/Login";
 import { Home } from "./Components/Home";
-import { Stories } from "./Components/Stories";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/" element={<Home />} />
+        </Route>
+        <Route exact path="/home" element={<ProtectedRoute />}>
+          <Route exact path="/home" element={<Home />} />
+        </Route>
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/home" element={<Home />} />
-        <Route exact path="/stories" element={<Stories />} />
+        <Route exact path="/login" element={<Login />} />
       </Routes>
     </>
   );
 }
+
+const ProtectedRoute = () => {
+  var isAuth = localStorage.getItem("isAuth");
+  console.log(isAuth);
+  return !isAuth ? <Navigate to="/login" /> : <Outlet />;
+};
 
 export default App;
